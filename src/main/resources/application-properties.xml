@@ -4,8 +4,13 @@
 	<comment>application-properties</comment>
 	
 	<!-- Database -->
+<!--
 	<entry key="database.driverClassName">oracle.jdbc.driver.OracleDriver</entry>
-	<entry key="database.url">jdbc:oracle:thin:@localhost:1521/XE</entry> 
+	<entry key="database.url">jdbc:oracle:thin:@localhost:1521/XE</entry>  
+-->
+	
+	<entry key="database.driverClassName">net.sf.log4jdbc.sql.jdbcapi.DriverSpy</entry>
+	<entry key="database.url">jdbc:log4jdbc:oracle:thin:@localhost:1521/XE</entry>
 	<entry key="database.username">ZEROCK</entry>
 	<entry key="database.password">ZEROCK</entry>
 </properties>
