@@ -217,6 +217,17 @@
 					<warSourceDirectory>webapp</warSourceDirectory>
 				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>5.2.4</version>
+                <configuration>
+                	<driver>oracle.jdbc.driver.OracleDriver</driver>
+                    <url>jdbc:oracle:thin:@localhost:1521/XE</url>
+                    <user>ZEROCK</user>
+                    <password>ZEROCK</password>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
