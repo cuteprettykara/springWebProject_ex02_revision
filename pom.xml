@@ -56,11 +56,20 @@
 		</dependency>
 		
 		<!-- Oracle JDBC Driver -->
+<!-- 		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>11.2</version>
+		</dependency> -->
+		
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc8</artifactId>
 			<version>11.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/webapp/WEB-INF/lib/ojdbc8.jar</systemPath>
 		</dependency>
+		
 		
 		<!-- Mybatis -->
 		<dependency>
