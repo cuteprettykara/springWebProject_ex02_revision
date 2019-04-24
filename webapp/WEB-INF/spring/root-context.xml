@@ -22,5 +22,9 @@
 		p:dataSource-ref="dataSource"
 	/>
 	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource"
+	/>
+	
 	<mybatis-spring:scan base-package="org.zerock.mapper"/>
 </beans>
