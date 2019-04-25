@@ -14,6 +14,9 @@ public class BoardVO {
 	private Date regdate;
 	private Date updateDate;
 	
+	public BoardVO() {
+	}
+	
 	public BoardVO(Long bno, String title, String content, String writer) {
 		this.bno = bno;
 		this.title = title;

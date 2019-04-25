@@ -28,10 +28,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void register(BoardVO board) {
+	public boolean register(BoardVO board) {
 		log.info("register: " + board);
 		
-		mapper.insertSelectKey(board);
+		return mapper.insertSelectKey(board) == 1;
 	}
 
 	@Override
