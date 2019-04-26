@@ -42,12 +42,51 @@
             </div>
           </div>
 
+
+
+<!-- myModal Modal-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Modal Title</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">처리가 완료되었습니다.</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <script>
+	function checkModal(result) {
+		if (result == '') return;
+		
+		var bno = parseInt(result);
+		var $myModal = $("#myModal");
+		console.log($myModal);
+		
+		if (bno > 0) {
+			$myModal.find(".modal-body").html("게시글 " + bno + "번이 등록되었습니다.");
+		}
+		
+		$myModal.modal("show");
+	}
+
+
 	$(document).ready(function() {
 		var result = '<c:out value="${result}" />';
-		console.log('*************');
-		console.log(result);
+		
+		checkModal(result);
 	})
+	
 </script>
 
 <%@ include file="../includes/footer.jsp"%>
