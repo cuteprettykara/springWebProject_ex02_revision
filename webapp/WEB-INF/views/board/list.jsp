@@ -11,7 +11,9 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+              <span class="m-0 font-weight-bold text-primary">Board List Page</span>
+							<button id='regBtn' type="button" class="btn btn-primary btn-sm float-right">Register New Board</button>
+            </div>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -85,6 +87,10 @@
 		var result = '<c:out value="${result}" />';
 		
 		checkModal(result);
+		
+		$("#regBtn").on("click", function() {
+			self.location = "/board/register";
+		});
 	})
 	
 </script>
