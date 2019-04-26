@@ -32,7 +32,7 @@
 									<c:forEach items="${list}" var="board">
 										<tr>
 											<td><c:out value="${board.bno}" /></td>
-											<td><c:out value="${board.title}" /></td>
+											<td><a href='/board/read?bno=<c:out value="${board.bno}"/>'><c:out value="${board.title}" /></a></td>
 											<td><c:out value="${board.writer}" /></td>
 											<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.regdate}" /></td>
 											<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.updateDate}" /></td>
@@ -69,11 +69,11 @@
 
 <script>
 	function checkModal(result) {
-		if (result == '') return;
+		// 모달창을 띄울 필요가 없다는 표시가(history.state) 존재한다면 리턴한다.
+		if (result == '' || history.state) return;
 		
 		var bno = parseInt(result);
 		var $myModal = $("#myModal");
-		console.log($myModal);
 		
 		if (bno > 0) {
 			$myModal.find(".modal-body").html("게시글 " + bno + "번이 등록되었습니다.");
@@ -87,6 +87,9 @@
 		var result = '<c:out value="${result}" />';
 		
 		checkModal(result);
+		
+		// 다음부터는 모달창을 띄울 필요가 없다는 표시를 해둔다.
+		history.replaceState({}, null, null);
 		
 		$("#regBtn").on("click", function() {
 			self.location = "/board/register";
