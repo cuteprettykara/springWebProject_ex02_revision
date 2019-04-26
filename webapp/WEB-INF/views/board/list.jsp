@@ -14,7 +14,6 @@
               <span class="m-0 font-weight-bold text-primary">Board List Page</span>
 							<button id='regBtn' type="button" class="btn btn-primary btn-sm float-right">Register New Board</button>
             </div>
-            </div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
