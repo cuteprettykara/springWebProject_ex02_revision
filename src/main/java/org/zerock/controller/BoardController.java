@@ -28,7 +28,7 @@ public class BoardController {
 		model.addAttribute("list", service.getList());
 	}
 	
-	@RequestMapping("/read")
+	@GetMapping({"/read", "/modify"})
 	public void read(@RequestParam("bno") Long bno, Model model) {
 		log.info("read: " + bno);
 		

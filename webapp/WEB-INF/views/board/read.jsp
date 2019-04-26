@@ -38,6 +38,7 @@
 		          </div>
 		          
 		          <button type="button" data-oper='modify' class="btn btn-primary">Modify</button>
+		          <button type="button" data-oper='remove' class="btn btn-danger">Remove</button>
 		          <button type="button" data-oper='list' class="btn btn-secondary">List</button>
             </div>
           </div>
@@ -49,16 +50,31 @@
 
 <script>
 	$(document).ready(function() {
-		var operForm = $("#operForm"); 
-		 
-		$("button[data-oper='modify']").on("click", function(e){  
-	    operForm.attr("action","/board/modify").submit();
-	  });
-	  
-	  $("button[data-oper='list']").on("click", function(e){
-	    operForm.find("#bno").remove();
-	    operForm.attr("action","/board/list")
-	    operForm.submit();
+		var formObj = $("#operForm"); 
+		
+		$('button').on("click", function(e) {
+			
+			var operation = $(this).data("oper");
+			
+			console.log(operation);
+			
+			switch (operation) {
+				case "modify":
+					formObj.attr("action","/board/modify").submit();
+					break;
+				case "remove":
+					formObj.attr("method", "post");
+					formObj.attr("action","/board/remove").submit();
+					break;
+				case "list":
+					 self.location = "/board/list";
+					break;
+	
+				default:
+					alert("해당하는 명령이 없습니다.");
+					break;
+			}
+			
 		});
 	});
 </script>
