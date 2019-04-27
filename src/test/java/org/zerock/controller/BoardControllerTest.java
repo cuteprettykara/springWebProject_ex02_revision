@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import org.zerock.domain.BoardVO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -45,12 +48,16 @@ public class BoardControllerTest {
 
 	@Test
 	public void testList() throws Exception {
-		log.info(
-			mockMvc.perform(MockMvcRequestBuilders.get("/board/list"))
-				.andReturn()
-				.getModelAndView()
-				.getModelMap()
-		);
+		ArrayList<BoardVO> list =
+			(ArrayList<BoardVO>) mockMvc.perform(MockMvcRequestBuilders.get("/board/list")
+				.param("page", "2")
+				.param("perPageNum", "10"))
+			.andDo(print())
+			.andReturn()
+			.getModelAndView()
+			.getModelMap().get("list");
+		
+		assertEquals(10, list.size());
 	}
 	
 	@Test
@@ -102,7 +109,7 @@ public class BoardControllerTest {
 	public void testModifyBad() throws Exception {
 		String resultMessage =
 		(String) mockMvc.perform(MockMvcRequestBuilders.post("/board/modify")
-							.param("bno", "999")	// 에러 상황을 유도 : 없는 bno를 넘긴다.
+							.param("bno", "999999")	// 에러 상황을 유도 : 없는 bno를 넘긴다.
 							.param("title", "수정된  제목")
 							.param("content", "수정된 내용")
 							.param("writer", "newbie"))
@@ -132,7 +139,7 @@ public class BoardControllerTest {
 	public void testRemoveBad() throws Exception {
 		String resultMessage =
 		(String) mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
-							.param("bno", "999"))	// 에러 상황을 유도 : 없는 bno를 넘긴다.
+							.param("bno", "999999"))	// 에러 상황을 유도 : 없는 bno를 넘긴다.
 			.andDo(print())
 			.andExpect(status().isFound())	// 302
 			.andExpect(redirectedUrl("/board/list"))

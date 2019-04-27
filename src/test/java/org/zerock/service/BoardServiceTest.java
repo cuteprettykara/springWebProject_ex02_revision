@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 import org.zerock.mapper.BoardMapperTest;
 
 import lombok.Setter;
@@ -43,13 +44,13 @@ public class BoardServiceTest {
 	
 	@Test
 	public void testGetList() throws Exception {
-		List<BoardVO> list = service.getList();
+		Criteria cri = new Criteria(2, 10);
 		
-//		assertThat(list.size(), is(1));
-//		
-//		list.forEach(board -> log.info(board));
+		List<BoardVO> list = service.getListWithPaging(cri);
 		
-		log.info("list size: " + list.size());
+		assertThat(list.size(), is(10));
+		
+		list.forEach(board -> log.info(board));
 	}
 	
 	@Test

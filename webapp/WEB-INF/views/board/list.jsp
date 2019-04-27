@@ -83,6 +83,15 @@
 
 
 	$(document).ready(function() {
+		
+	  $('#dataTable').DataTable({
+		  "dom": "lrti",
+		  "order": []
+	  });
+	  
+//		console.log('${criteria.perPageNum}');
+		$("select[name='dataTable_length']").val('${criteria.perPageNum}');
+	
 		var result = '<c:out value="${result}" />';
 		
 		checkModal(result);
