@@ -39,6 +39,49 @@
 									</c:forEach>
                   </tbody>
                 </table>
+                
+                
+                <c:choose>
+                	<c:when test="${pageMaker.prev}">
+                		<c:set var="prev_class" value="page-item" />
+										<c:set var="prev_aria_disabled" value="" />
+                	</c:when>
+                	<c:otherwise>
+                		<c:set var="prev_class" value="page-item disabled" />
+										<c:set var="prev_aria_disabled" value="tabindex=-1 aria-disabled=true" />
+                	</c:otherwise>
+                </c:choose>
+                
+                <c:choose>
+                	<c:when test="${pageMaker.next}">
+                		<c:set var="next_class" value="page-item" />
+										<c:set var="next_aria_disabled" value="" />
+                	</c:when>
+                	<c:otherwise>
+                		<c:set var="next_class" value="page-item disabled" />
+										<c:set var="next_aria_disabled" value="tabindex=-1 aria-disabled=true" />
+                	</c:otherwise>
+                </c:choose>
+                
+                <div>
+                	<ul class="pagination justify-content-center">
+										<li class="${prev_class}">
+											<a class="page-link" href="#" ${prev_aria_disabled}>Previous</a>
+										</li>
+		
+                		<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+											<li class="page-item">
+												<a class="page-link" href="#">${idx}</a>
+											</li>
+										</c:forEach>
+										
+										<li class="${next_class}">
+											<a class="page-link" href="#" ${next_aria_disabled}>Next</a>
+										</li>
+                	</ul>
+                </div>
+                
+                
               </div>
             </div>
           </div>
@@ -85,7 +128,7 @@
 	$(document).ready(function() {
 		
 	  $('#dataTable').DataTable({
-		  "dom": "lrti",
+		  "dom": "lrt",
 		  "order": []
 	  });
 	  
