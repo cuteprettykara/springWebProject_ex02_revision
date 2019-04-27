@@ -132,14 +132,22 @@
 
 	$(document).ready(function() {
 		
+		var actionForm = $("#actionForm");
+		
 	  $('#dataTable').DataTable({
 		  "dom": "lrt",
-		  "order": []
+		  "order": [],
+		  "pageLength": ${pageMaker.cri.perPageNum}
 	  });
 	  
-//		console.log('${criteria.perPageNum}');
-		$("select[name='dataTable_length']").val('${criteria.perPageNum}');
-	
+		$('#dataTable').on('length.dt', function (e, settings, len) {
+		    actionForm.find("[name='perPageNum']").val(len);
+		    actionForm.submit();
+		} );
+	  
+	  // 참고: dynamically change entries length
+		// $('#dataTable').DataTable().page.len(${pageMaker.cri.perPageNum}).draw();
+	  
 		var result = '<c:out value="${result}" />';
 		
 		checkModal(result);
@@ -155,13 +163,10 @@
 			
 			event.preventDefault();
 			
-			var targetPage = $(this).attr("href");
-			
-			var actionForm = $("#actionForm");
-			
-			actionForm.find("[name='page']").val(targetPage);
+			actionForm.find("[name='page']").val($(this).attr("href"));
 			actionForm.submit();
 		});
+		
 	})
 	
 </script>
