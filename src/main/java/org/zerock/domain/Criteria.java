@@ -21,12 +21,12 @@ public class Criteria {
 	}
 	
 	// method for MyBatis SQL Mapper
-	public int getPageStart() {
+	public int getRowFrom() {
 		return (this.page - 1) * this.perPageNum;
 	}
 	
 	// method for MyBatis SQL Mapper
-	public int getPageEnd() {
+	public int getRowTo() {
 		return this.page * this.perPageNum;
 	}
 }
