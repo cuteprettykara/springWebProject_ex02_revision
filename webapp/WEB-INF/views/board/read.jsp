@@ -44,7 +44,9 @@
           </div>
           
           <form id='operForm' action="/board/modify" method="get">
-					  <input type='hidden' id='bno' name='bno' value='<c:out value="${board.bno}"/>'>
+					  <input type='hidden' name='bno' id="bno" value='<c:out value="${board.bno}"/>'>
+					  <input type="hidden" name="page" value="${cri.page}">
+						<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
 					</form> 
     
 
@@ -67,7 +69,9 @@
 					formObj.attr("action","/board/remove").submit();
 					break;
 				case "list":
-					 self.location = "/board/list";
+					formObj.find("#bno").remove();
+					formObj.attr("method", "get");
+					formObj.attr("action", "/board/list").submit();
 					break;
 	
 				default:

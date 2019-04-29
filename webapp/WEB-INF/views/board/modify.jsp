@@ -17,6 +17,9 @@
             
             <div class="card-body">
             	<form id='operForm' action="/board/modify" method="post">
+            		<input type="hidden" name="page" value="${cri.page}">
+								<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
+								
 	            	<div class="form-group">
 			            <label>Bno</label>
 			            <input class="form-control" name='bno' value='<c:out value="${board.bno}" />' readonly="readonly">
@@ -55,7 +58,17 @@
 		 });
 		 
 		 $("button[data-oper='list']").on("click", function(e){
-		  self.location = "/board/list";
+			 formObj.attr("action", "/board/list");
+			 formObj.attr("method", "get");
+			 
+			 var page = $("input[name='page']").clone();
+			 var perPageNum = $("input[name='perPageNum']").clone();
+			 
+			 formObj.empty();
+			 formObj.append(page);
+			 formObj.append(perPageNum);
+			 
+			 formObj.submit();
 		 });
 	});
 </script>

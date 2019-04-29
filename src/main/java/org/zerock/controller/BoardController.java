@@ -3,6 +3,7 @@ package org.zerock.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,8 +37,12 @@ public class BoardController {
 	}
 	
 	@GetMapping({"/read", "/modify"})
-	public void read(@RequestParam("bno") Long bno, Model model) {
+	public void read(
+			@RequestParam("bno") Long bno, 
+			@ModelAttribute("cri") Criteria cri,
+			Model model) {
 		log.info("read: " + bno);
+		log.info("Criteria: " + cri);
 		
 		model.addAttribute("board", service.get(bno));
 	}
@@ -58,23 +63,35 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardVO board, RedirectAttributes rttr) {
+	public String modify(
+			BoardVO board, 
+			Criteria cri,
+			RedirectAttributes rttr) {
 		log.info("modify: " + board);
 		
 		if (service.modify(board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
 		
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+
 		return "redirect:/board/list";
 	}
 	
 	@PostMapping("/remove")
-	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
+	public String remove(
+			@RequestParam("bno") Long bno, 
+			Criteria cri,
+			RedirectAttributes rttr) {
 		log.info("remove: " + bno);
 		
 		if (service.remove(bno)) {
 			rttr.addFlashAttribute("result", "success");
 		}
+		
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
 		
 		return "redirect:/board/list";
 	}
