@@ -28,7 +28,7 @@ public class BoardController {
 	public void list(Criteria cri, Model model) {
 		log.info("list");
 		
-		PageDTO pageMaker = new PageDTO(cri, 123);
+		PageDTO pageMaker = new PageDTO(cri, service.getTotalCount(cri));
 		
 		model.addAttribute("list", service.getListWithPaging(cri));
 		model.addAttribute("pageMaker", pageMaker);

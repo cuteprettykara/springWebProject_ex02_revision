@@ -62,4 +62,12 @@
 		     , updateDate = sysdate
 		 where bno = #{bno}
 	</update>
+	
+	<select id="getTotalCount" resultType="int">
+	<![CDATA[
+		select count(*) 
+		  from tbl_board
+		 where bno > 0
+	]]>
+	</select>
 </mapper>
