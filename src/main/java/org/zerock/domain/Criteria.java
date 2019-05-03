@@ -11,6 +11,9 @@ public class Criteria {
 	private int page;
 	private int perPageNum;
 	
+	private String searchType;
+	private String keyword;
+	
 	public Criteria(int page, int perPageNum) {
 		this.page = page;
 		this.perPageNum = perPageNum;
@@ -28,5 +31,9 @@ public class Criteria {
 	// method for MyBatis SQL Mapper
 	public int getRowTo() {
 		return this.page * this.perPageNum;
+	}
+	
+	public String[] getSearchTypeArr() {
+		return searchType == null ? new String[] {} : searchType.split("");
 	}
 }

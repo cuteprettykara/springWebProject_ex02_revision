@@ -1,9 +1,7 @@
 package org.zerock.mapper;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -86,16 +84,77 @@ public class BoardMapperTest {
 	}
 	
 	
-	  @Test 
-	  public void update() throws Exception { 
-		  BoardVO board = new BoardVO(TEST_BNO, "update 제목", "update 내용", "update writer");
-		  assertThat(mapper.update(board), is(1));
-		  
-		  BoardVO actual = mapper.read(TEST_BNO); 
-		  assertEquals(board, actual); 
-		  
-		  log.info("board: " + board);
-		  log.info("actual: " + actual);
-	  }
-	 
+	@Test 
+	public void update() throws Exception { 
+		BoardVO board = new BoardVO(TEST_BNO, "update 제목", "update 내용", "update writer");
+		assertThat(mapper.update(board), is(1));
+	  
+		BoardVO actual = mapper.read(TEST_BNO); 
+		assertEquals(board, actual); 
+	  
+		log.info("board: " + board);
+		log.info("actual: " + actual);
+	}
+	
+	@Test
+	public void testNoSearch() throws Exception {
+		Criteria cri = new Criteria();
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
+	}
+	
+	@Test
+	public void testSingleSearchT() throws Exception {
+		Criteria cri = new Criteria();
+		cri.setKeyword("new");
+		cri.setSearchType("T");
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
+	}
+	
+	@Test
+	public void testSingleSearchW() throws Exception {
+		Criteria cri = new Criteria();
+		cri.setKeyword("new");
+		cri.setSearchType("W");
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
+	}
+	
+	@Test
+	public void testMultiSearchTC() throws Exception {
+		Criteria cri = new Criteria();
+		cri.setKeyword("new");
+		cri.setSearchType("TC");
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
+	}
+	@Test
+	public void testMultiSearchCW() throws Exception {
+		Criteria cri = new Criteria();
+		cri.setKeyword("content");
+		cri.setSearchType("CW");
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
+	}
+	@Test
+	public void testMultiSearchTCW() throws Exception {
+		Criteria cri = new Criteria();
+		cri.setKeyword("content");
+		cri.setSearchType("TCW");
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
+	}
 }

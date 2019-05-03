@@ -15,6 +15,28 @@
 	]]> 
 	</select>
 	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+			<foreach item="searchType" collection="searchTypeArr">
+			
+				<trim prefix="OR">
+					<choose>
+						<when test="searchType == 'T'.toString()">
+							title like '%' ||  #{keyword} || '%'
+						</when>
+						<when test="searchType == 'C'.toString()">
+							content like '%' ||  #{keyword} || '%'
+						</when>
+						<when test="searchType == 'W'.toString()">
+							writer like '%' ||  #{keyword} || '%'
+						</when>
+					</choose>
+				</trim>
+			
+			</foreach>
+		</trim>	
+	</sql>
+	
 	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
 	<![CDATA[
 		select *
@@ -23,7 +45,14 @@
 									 rownum rn,
 									 bno, title, content, writer, regdate, updatedate		  
 						  from tbl_board
-						 where rownum <= #{rowTo}
+						 where 
+	]]>			 
+	
+						<include refid="criteria"></include>
+						 
+		
+	<![CDATA[				 
+						 rownum <= #{rowTo}
 		  		)
 		 where rn > #{rowFrom}
 	]]> 
@@ -64,10 +93,12 @@
 	</update>
 	
 	<select id="getTotalCount" resultType="int">
-	<![CDATA[
 		select count(*) 
 		  from tbl_board
-		 where bno > 0
-	]]>
+		 where 
+		 
+		 	<include refid="criteria"></include>
+		 	
+		 bno > 0
 	</select>
 </mapper>
