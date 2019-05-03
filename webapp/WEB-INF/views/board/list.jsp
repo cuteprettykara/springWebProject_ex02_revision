@@ -11,9 +11,26 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <span class="m-0 font-weight-bold text-primary">Board List Page</span>
-							<button id='regBtn' type="button" class="btn btn-primary btn-sm float-right">Register New Board</button>
+	            <form id="actionForm" action="/board/list" method="get">
+							  <input type='hidden' name="page" value="${pageMaker.cri.page}">
+							  <input type='hidden' name="perPageNum" value="${pageMaker.cri.perPageNum}">
+	
+	              <select name="searchType">
+	              	<option value=""    <c:out value="${pageMaker.cri.searchType eq null  ? 'selected' : ''}"/>>--</option>
+									<option value="T"   <c:out value="${pageMaker.cri.searchType eq 'T'   ? 'selected' : ''}"/>>Title</option>
+									<option value="C"   <c:out value="${pageMaker.cri.searchType eq 'C'   ? 'selected' : ''}"/>>Content</option>
+									<option value="W"   <c:out value="${pageMaker.cri.searchType eq 'W'   ? 'selected' : ''}"/>>Writer</option>
+									<option value="TC"  <c:out value="${pageMaker.cri.searchType eq 'TC'  ? 'selected' : ''}"/>>Title OR Content</option>
+									<option value="CW"  <c:out value="${pageMaker.cri.searchType eq 'CW'  ? 'selected' : ''}"/>>Content OR Writer</option>
+									<option value="TCW" <c:out value="${pageMaker.cri.searchType eq 'TCW' ? 'selected' : ''}"/>>Title OR Content OR Writer</option>
+								</select>
+	
+								<input type="text" name="keyword" value="${pageMaker.cri.keyword}">
+								<button id="searchBtn" type="button">Search</button>
+								<button id='regBtn' type="button" class="btn btn-primary btn-sm float-right">Register New Board</button>
+							</form>
             </div>
+            
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -85,12 +102,6 @@
               </div>
             </div>
           </div>
-
-
-<form id="actionForm" action="/board/list" method="get">
-  <input type='hidden' name="page" value="${pageMaker.cri.page}">
-  <input type='hidden' name="perPageNum" value="${pageMaker.cri.perPageNum}">
-</form>
 
 
 <!-- myModal Modal-->
@@ -175,6 +186,28 @@
 			actionForm.attr("action", "/board/read");
 			
 			actionForm.submit();
+		});
+		
+		$("#searchBtn").on("click", function(event) {
+/* 			if (!actionForm.find("option:selected").val()) {
+				alert("검색종류를 선택하세요");
+				return false;
+			}
+			
+			if (!actionForm.find("input[name='keyword']").val()) {
+				alert("키워드를 입력하세요");
+				return false;
+			} */
+			
+			actionForm.find("input[name='page']").val("1");
+			actionForm.submit();
+			
+		});
+		
+		$('#actionForm input').keydown(function (e) {
+		    if (e.keyCode == 13) {
+					actionForm.trigger('click');
+		    }
 		});
 		
 	})
