@@ -98,7 +98,7 @@ public class BoardControllerTest {
 							.param("writer", "newbie"))
 			.andDo(print())
 			.andExpect(status().isFound())	// 302
-			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10"))
+			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10&searchType&keyword"))
 			.andReturn()
 			.getFlashMap().get("result");
 		
@@ -128,7 +128,7 @@ public class BoardControllerTest {
 							.param("bno", "1"))
 			.andDo(print())
 			.andExpect(status().isFound())	// 302
-			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10"))
+			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10&searchType&keyword"))
 			.andReturn()
 			.getFlashMap().get("result");
 		
@@ -142,7 +142,7 @@ public class BoardControllerTest {
 							.param("bno", "999999"))	// 에러 상황을 유도 : 없는 bno를 넘긴다.
 			.andDo(print())
 			.andExpect(status().isFound())	// 302
-			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10"))
+			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10&searchType&keyword"))
 			.andReturn()
 			.getFlashMap().get("result");
 		
