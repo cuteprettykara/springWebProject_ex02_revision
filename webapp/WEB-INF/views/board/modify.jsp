@@ -19,6 +19,8 @@
             	<form id='operForm' action="/board/modify" method="post">
             		<input type="hidden" name="page" value="${cri.page}">
 								<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
+								<input type="hidden" name="searchType" value="${cri.searchType}">
+								<input type="hidden" name="keyword" value="${cri.keyword}">
 								
 	            	<div class="form-group">
 			            <label>Bno</label>
@@ -63,10 +65,14 @@
 			 
 			 var page = $("input[name='page']").clone();
 			 var perPageNum = $("input[name='perPageNum']").clone();
+			 var searchType = $("input[name='searchType']").clone();
+			 var keyword = $("input[name='keyword']").clone();
 			 
 			 formObj.empty();
 			 formObj.append(page);
 			 formObj.append(perPageNum);
+			 formObj.append(searchType);
+			 formObj.append(keyword);
 			 
 			 formObj.submit();
 		 });

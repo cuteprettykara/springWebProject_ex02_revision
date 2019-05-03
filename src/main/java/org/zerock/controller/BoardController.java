@@ -25,7 +25,7 @@ public class BoardController {
 	private BoardService service;
 	
 	@RequestMapping("/list")
-	public void list(Criteria cri, Model model) {
+	public void list(@ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("list");
 		
 		PageDTO pageMaker = new PageDTO(cri, service.getTotalCount(cri));
@@ -75,6 +75,8 @@ public class BoardController {
 		
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 
 		return "redirect:/board/list";
 	}
@@ -92,6 +94,8 @@ public class BoardController {
 		
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		
 		return "redirect:/board/list";
 	}

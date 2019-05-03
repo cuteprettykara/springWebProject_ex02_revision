@@ -47,6 +47,8 @@
 					  <input type='hidden' name='bno' id="bno" value='<c:out value="${board.bno}"/>'>
 					  <input type="hidden" name="page" value="${cri.page}">
 						<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
+						<input type="hidden" name="searchType" value="${cri.searchType}">
+						<input type="hidden" name="keyword" value="${cri.keyword}">
 					</form> 
     
 

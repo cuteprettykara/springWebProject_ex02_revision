@@ -16,16 +16,16 @@
 							  <input type='hidden' name="perPageNum" value="${pageMaker.cri.perPageNum}">
 	
 	              <select name="searchType">
-	              	<option value=""    <c:out value="${pageMaker.cri.searchType eq null  ? 'selected' : ''}"/>>--</option>
-									<option value="T"   <c:out value="${pageMaker.cri.searchType eq 'T'   ? 'selected' : ''}"/>>Title</option>
-									<option value="C"   <c:out value="${pageMaker.cri.searchType eq 'C'   ? 'selected' : ''}"/>>Content</option>
-									<option value="W"   <c:out value="${pageMaker.cri.searchType eq 'W'   ? 'selected' : ''}"/>>Writer</option>
-									<option value="TC"  <c:out value="${pageMaker.cri.searchType eq 'TC'  ? 'selected' : ''}"/>>Title OR Content</option>
-									<option value="CW"  <c:out value="${pageMaker.cri.searchType eq 'CW'  ? 'selected' : ''}"/>>Content OR Writer</option>
-									<option value="TCW" <c:out value="${pageMaker.cri.searchType eq 'TCW' ? 'selected' : ''}"/>>Title OR Content OR Writer</option>
+	              	<option value=""    <c:out value="${cri.searchType eq null  ? 'selected' : ''}"/>>--</option>
+									<option value="T"   <c:out value="${cri.searchType eq 'T'   ? 'selected' : ''}"/>>Title</option>
+									<option value="C"   <c:out value="${cri.searchType eq 'C'   ? 'selected' : ''}"/>>Content</option>
+									<option value="W"   <c:out value="${cri.searchType eq 'W'   ? 'selected' : ''}"/>>Writer</option>
+									<option value="TC"  <c:out value="${cri.searchType eq 'TC'  ? 'selected' : ''}"/>>Title OR Content</option>
+									<option value="CW"  <c:out value="${cri.searchType eq 'CW'  ? 'selected' : ''}"/>>Content OR Writer</option>
+									<option value="TCW" <c:out value="${cri.searchType eq 'TCW' ? 'selected' : ''}"/>>Title OR Content OR Writer</option>
 								</select>
 	
-								<input type="text" name="keyword" value="${pageMaker.cri.keyword}">
+								<input type="text" name="keyword" value="${cri.keyword}">
 								<button id="searchBtn" type="button">Search</button>
 								<button id='regBtn' type="button" class="btn btn-primary btn-sm float-right">Register New Board</button>
 							</form>
