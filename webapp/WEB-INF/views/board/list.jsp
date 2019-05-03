@@ -12,8 +12,8 @@
           <div class="card shadow mb-4">
             <div class="card-header py-3">
 	            <form id="actionForm" action="/board/list" method="get">
-							  <input type='hidden' name="page" value="${pageMaker.cri.page}">
-							  <input type='hidden' name="perPageNum" value="${pageMaker.cri.perPageNum}">
+							  <input type='hidden' name="page" value="${cri.page}">
+							  <input type='hidden' name="perPageNum" value="${cri.perPageNum}">
 	
 	              <select name="searchType">
 	              	<option value=""    <c:out value="${cri.searchType eq null  ? 'selected' : ''}"/>>--</option>
@@ -148,7 +148,7 @@
 	  $('#dataTable').DataTable({
 		  "dom": "lrt",
 		  "order": [],
-		  "pageLength": ${pageMaker.cri.perPageNum}
+		  "pageLength": ${cri.perPageNum}
 	  });
 	  
 		$('#dataTable').on('length.dt', function (e, settings, len) {
@@ -210,7 +210,7 @@
 		    }
 		});
 		
-	})
+	});
 	
 </script>
 

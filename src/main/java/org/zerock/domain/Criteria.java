@@ -1,5 +1,7 @@
 package org.zerock.domain;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -35,5 +37,15 @@ public class Criteria {
 	
 	public String[] getSearchTypeArr() {
 		return searchType == null ? new String[] {} : searchType.split("");
+	}
+	
+	public String getListLink() {
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+				.queryParam("page", this.page)
+				.queryParam("perPageNum", this.perPageNum)
+				.queryParam("searchType", this.searchType)
+				.queryParam("keyword", this.keyword);
+		
+		return builder.toUriString();
 	}
 }
