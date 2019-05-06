@@ -121,19 +121,19 @@ public class BoardControllerTest {
 		assertNull(resultMessage);
 	}
 
-	@Test
-	public void testRemoveOK() throws Exception {
-		String resultMessage =
-		(String) mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
-							.param("bno", "1"))
-			.andDo(print())
-			.andExpect(status().isFound())	// 302
-			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10&searchType&keyword"))
-			.andReturn()
-			.getFlashMap().get("result");
-		
-		assertEquals("success", resultMessage);
-	}
+//	@Test
+//	public void testRemoveOK() throws Exception {
+//		String resultMessage =
+//		(String) mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
+//							.param("bno", "1"))
+//			.andDo(print())
+//			.andExpect(status().isFound())	// 302
+//			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10&searchType&keyword"))
+//			.andReturn()
+//			.getFlashMap().get("result");
+//		
+//		assertEquals("success", resultMessage);
+//	}
 	
 	@Test
 	public void testRemoveBad() throws Exception {

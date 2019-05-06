@@ -76,12 +76,12 @@ public class BoardMapperTest {
 		log.info("actual: " + actual);
 	}
 	
-	@Test
-	public void delete() throws Exception {
-		assertThat(mapper.delete(TEST_BNO), is(1));
-		
-		assertNull(mapper.read(TEST_BNO));
-	}
+//	@Test
+//	public void delete() throws Exception {
+//		assertThat(mapper.delete(TEST_BNO), is(1));
+//		
+//		assertNull(mapper.read(TEST_BNO));
+//	}
 	
 	
 	@Test 

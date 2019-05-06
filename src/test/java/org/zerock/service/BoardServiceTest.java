@@ -76,11 +76,11 @@ public class BoardServiceTest {
 		assertEquals(board, actual);
 	}
 	
-	@Test
-	public void testDelete() throws Exception {
-		assertTrue(service.remove(BoardMapperTest.TEST_BNO));
-		assertNull(service.get(BoardMapperTest.TEST_BNO));
-		
-	}
+//	@Test
+//	public void testDelete() throws Exception {
+//		assertTrue(service.remove(BoardMapperTest.TEST_BNO));
+//		assertNull(service.get(BoardMapperTest.TEST_BNO));
+//		
+//	}
 
 }
