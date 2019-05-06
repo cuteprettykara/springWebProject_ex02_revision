@@ -46,6 +46,7 @@ public class BoardControllerTest {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testList() throws Exception {
 		ArrayList<BoardVO> list =
