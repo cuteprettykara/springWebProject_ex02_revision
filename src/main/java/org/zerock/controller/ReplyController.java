@@ -1,6 +1,8 @@
 package org.zerock.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.PageDTO;
 import org.zerock.domain.ReplyVO;
 import org.zerock.service.ReplyService;
 
@@ -50,14 +53,21 @@ public class ReplyController {
 					MediaType.APPLICATION_XML_VALUE,
 					MediaType.APPLICATION_JSON_UTF8_VALUE
 			})
-	public ResponseEntity<List<ReplyVO>> list(
+	public ResponseEntity<Map<String, Object>> list(
 			@PathVariable("bno") Long bno,
 			@PathVariable("page") int page) {
 		
 		Criteria cri = new Criteria(page, 10);
 		log.info("cri: " + cri);
 		
-		return new ResponseEntity<>(service.getListWithPaging(bno, cri), HttpStatus.OK);
+		PageDTO pageMaker = new PageDTO(cri, service.getTotalCountByBno(bno));
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("pageMaker", pageMaker);
+		map.put("list", service.getListWithPaging(bno, cri));
+		
+		
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{rno}", method = {RequestMethod.PUT, RequestMethod.PATCH},

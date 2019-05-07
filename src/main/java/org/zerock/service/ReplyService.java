@@ -16,4 +16,6 @@ public interface ReplyService {
 	public boolean modify(ReplyVO reply);
 	
 	public boolean remove(Long rno);
+	
+	public int getTotalCountByBno(Long bno);
 }

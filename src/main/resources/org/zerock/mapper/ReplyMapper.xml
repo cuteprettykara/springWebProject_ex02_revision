@@ -28,9 +28,26 @@
 	</update>
 	
 	<select id="getListWithPaging" resultType="org.zerock.domain.ReplyVO">
-		select * 
-		  from tbl_reply 
+	<![CDATA[
+		select *
+		  from 
+					( select /*+ INDEX(tbl_reply idx_reply) */
+						       rownum rn,
+						       rno, bno, replytext, replyer, regdate, updatedate
+						  from tbl_reply 
+						 where bno = #{bno}
+						 and rno > 0
+						 and rownum <= #{cri.rowTo}
+		  		)
+		 where rn > #{cri.rowFrom}
+	]]>			 
+	</select>
+	
+	<select id="getTotalCountByBno" resultType="int">
+	<![CDATA[
+		select count(bno) 
+		  from tbl_reply
 		 where bno = #{bno}
-		 order by rno desc
+	]]>
 	</select>
 </mapper>

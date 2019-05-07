@@ -30,6 +30,8 @@ public class ReplyMapperTest {
 	
 	public static final long TEST_BNO = 1L;
 	public static final long TEST_RNO = 1L;
+	
+//	public static final long TEST_BNO2 = 269523L;
 
 	@Test
 	public void getMapper() {
@@ -91,4 +93,15 @@ public class ReplyMapperTest {
 		
 		list.forEach(reply -> log.info(reply));
 	}
+	
+//	@Test
+//	public void getListWithPaging2() {
+//		Criteria cri = new Criteria(1, 10);
+//		
+//		List<ReplyVO> list = mapper.getListWithPaging(TEST_BNO2, cri);
+//		
+//		assertThat(list.size(), is(3));
+//		
+//		list.forEach(board -> log.info(board));
+//	}
 }

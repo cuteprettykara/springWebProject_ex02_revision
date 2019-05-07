@@ -45,4 +45,9 @@ public class ReplyServiceImpl implements ReplyService {
 		return mapper.delete(bno) == 1;
 	}
 
+	@Override
+	public int getTotalCountByBno(Long bno) {
+		return mapper.getTotalCountByBno(bno);
+	}
+
 }
