@@ -51,6 +51,60 @@
 						<input type="hidden" name="keyword" value="${cri.keyword}">
 					</form> 
     
+<script type="text/javascript" src="/resources/js/reply.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		console.log("=======================");
+		console.log("JS TEST");
+		
+		var bnoValue = '<c:out value="${board.bno}"/>';
+		
+/* 		replyService.add(
+			{bno: bnoValue, replytext: "JS Test", replyer: "tester"},
+			function(result) {
+				alert("RESULT: " + result);
+			}
+		);
+		
+		replyService.getList({bno:bnoValue, page:1},
+			function(list) {
+				for (var i = 0; i < list.length; i++) {
+					console.log(list[i]);
+				}
+			}		
+		);
+		
+		replyService.remove(13, function(result) {
+			console.log(result);
+			
+			if (result === "SUCCESS") {
+				alert("REMOVED");
+			}
+		}, function(err) {
+			alert('ERROR...');
+		});
+		
+		replyService.update(
+				{rno: 14, replytext: "Modified"},
+				function(result) {
+					console.log(result);
+					
+					if (result === "SUCCESS") {
+						alert("UPDATED");
+					}
+				},
+				function(err) {
+					alert('ERROR...');
+				}
+		); 
+		
+		replyService.get(14, function(result) {
+			console.log(result);
+		}); */
+		
+	});
+</script>
 
 <script>
 	$(document).ready(function() {
