@@ -211,7 +211,9 @@
 		
 		function showList(page) {
 			replyService.getList({bno:bnoValue, page:page || 1},
-					function(list) {
+					function(result) {
+						var list = result.list;
+						
 						if (list == null || list.length == 0) {
 							replyUL.html("");
 							return;
