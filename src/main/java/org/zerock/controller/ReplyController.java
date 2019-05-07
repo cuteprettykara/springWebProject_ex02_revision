@@ -100,4 +100,17 @@ public class ReplyController {
 		
 		return entity;
 	}
+	
+	@GetMapping(value="/{rno}",
+			produces = { 
+					MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_UTF8_VALUE
+	})
+	public ResponseEntity<ReplyVO> get(
+			@PathVariable("rno") Long rno) {
+		
+		log.info("get: " + rno);
+		
+		return new ResponseEntity<>(service.get(rno), HttpStatus.OK);
+	}
 }
