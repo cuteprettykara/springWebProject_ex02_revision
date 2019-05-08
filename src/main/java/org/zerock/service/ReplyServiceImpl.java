@@ -2,12 +2,16 @@ package org.zerock.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.ReplyVO;
+import org.zerock.mapper.BoardMapper;
 import org.zerock.mapper.ReplyMapper;
 
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -15,8 +19,11 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class ReplyServiceImpl implements ReplyService {
 
-	// spring 4.3 이상에서 자동 처리
+	@Setter(onMethod_ = @Autowired)
 	private ReplyMapper mapper;
+	
+	@Setter(onMethod_ = @Autowired)
+	private BoardMapper boardMapper;
 	
 	@Override
 	public ReplyVO get(Long bno) {
@@ -28,9 +35,12 @@ public class ReplyServiceImpl implements ReplyService {
 		return mapper.getListWithPaging(bno, cri);
 	}
 
+	@Transactional
 	@Override
 	public boolean register(ReplyVO reply) {
 		log.info("register: " + reply);
+		
+		boardMapper.updateReplyCnt(reply.getBno(), +1);
 		
 		return mapper.insert(reply) == 1;
 	}
@@ -40,9 +50,14 @@ public class ReplyServiceImpl implements ReplyService {
 		return mapper.update(reply) == 1;
 	}
 
+	@Transactional
 	@Override
-	public boolean remove(Long bno) {
-		return mapper.delete(bno) == 1;
+	public boolean remove(Long rno) {
+		
+		ReplyVO vo = mapper.read(rno);
+		boardMapper.updateReplyCnt(vo.getBno(), -1);
+		
+		return mapper.delete(rno) == 1;
 	}
 
 	@Override
