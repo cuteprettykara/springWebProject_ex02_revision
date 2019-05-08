@@ -60,9 +60,10 @@
   </div>
   
   <div class="card-body">
-		<ul class="chat">
-			
-		</ul>
+		<ul class="chat"></ul>
+	</div>
+	
+	<div class="card-footer text-muted">
 	</div>
 
 </div>
@@ -128,6 +129,9 @@
 		var modalRemoveBtn = $("#modalRemoveBtn");
 		var modalRegisterBtn = $("#modalRegisterBtn");
 		
+		var replyPageFooter = $(".card-footer");
+		var currentPage = 1;
+		
 		$("#addReplyBtn").on("click", function(e) {
 			myModal.find("input").val("");
 			
@@ -164,7 +168,6 @@
 		
 		$(".chat").on("click", "li", function(e) {
 			var rno = $(this).data("rno");
-			console.log(rno);
 			
 			replyService.get(rno, function(result) {
 				modalInputReply.val(result.replytext);
@@ -194,7 +197,7 @@
 				
 				myModal.modal("hide");
 				
-				showList(1);
+				showList(currentPage);
 			});
 		});
 		
@@ -204,33 +207,61 @@
 				
 				myModal.modal("hide");
 				
-				showList(1);
+				showList(currentPage);
 			});
 		});
 		
+		replyPageFooter.on("click","li a", function(e){
+	    e.preventDefault();
+	    showList($(this).attr("href"));
+		}); 
 		
 		function showList(page) {
-			replyService.getList({bno:bnoValue, page:page || 1},
-					function(result) {
-						var list = result.list;
-						
-						if (list == null || list.length == 0) {
-							replyUL.html("");
-							return;
-						}
-						
-						var str = "";
-						for (var i = 0; i < list.length; i++) {
-							str +="<li class='left clearfix border-bottom-primary' data-rno='"+list[i].rno+"'>";
-			      	str +="  <div><div class='header'><strong class='primary-font'>["
-			    	   		+list[i].rno+"] "+list[i].replyer+"</strong>"; 
-			       	str +="    <small class='float-right text-muted'>"
-			           	+replyService.displayTime(list[i].regdate)+"</small></div>";
-			       	str +="    <p>"+list[i].replytext+"</p></div></li>";
-						}
-						
-						replyUL.html(str);
-					});
+			if (page <= 0) return;
+			
+			currentPage = page;
+			
+			replyService.getList({bno:bnoValue, page:page || 1}, function(result) {
+				var list = result.list;
+				if (list == null || list.length == 0) {
+					replyUL.html("");
+					showList(--page);
+					return;
+				}
+				
+				var str = "";
+				for (var i = 0; i < list.length; i++) {
+					str +="<li class='left clearfix' data-rno='"+list[i].rno+"'>";
+	      	str +="  <div><div class='header'><strong class='primary-font'>["
+	    	   		+list[i].rno+"] "+list[i].replyer+"</strong>"; 
+	       	str +="    <small class='float-right text-muted'>"
+	           	+replyService.displayTime(list[i].regdate)+"</small></div>";
+	       	str +="    <p>"+list[i].replytext+"</p></div><hr></li>";
+				}
+				
+				replyUL.html(str);
+				
+				printPaging(result.pageMaker, replyPageFooter);
+			});
+		}
+		
+		function printPaging(pageMaker, target) {
+			var str = "<ul class='pagination justify-content-center'>";
+			
+			if (pageMaker.prev) {
+				str += "<li class='page-item'><a class='page-link' href='" + (pageMaker.startPage-1) + "'>&laquo;</a></li>";
+			}
+			
+			for (var i = pageMaker.startPage ; i <= pageMaker.endPage; i++) {
+				var strClass = pageMaker.cri.page === i ? "class='page-item active'" : "class='page-item'";
+				str += "<li " + strClass  + "><a class='page-link' href='" + i + "'>" + i + "</a></li>"
+			}
+			
+			if (pageMaker.next) {
+				str += "<li class='page-item'><a class='page-link' href='" + (pageMaker.endPage+1) + "'>&raquo;</a></li>";
+			}
+			
+			target.html(str);
 		}
 	});
 
