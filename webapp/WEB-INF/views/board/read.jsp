@@ -60,7 +60,7 @@
   </div>
   
   <div class="card-body">
-		<ul class="chat"></ul>
+		<ul class="chat list-group list-group-flush"></ul>
 	</div>
 	
 	<div class="card-footer text-muted">
@@ -231,12 +231,12 @@
 				
 				var str = "";
 				for (var i = 0; i < list.length; i++) {
-					str +="<li class='left clearfix' data-rno='"+list[i].rno+"'>";
+					str +="<li class='list-group-item' data-rno='"+list[i].rno+"'>";
 	      	str +="  <div><div class='header'><strong class='primary-font'>["
 	    	   		+list[i].rno+"] "+list[i].replyer+"</strong>"; 
 	       	str +="    <small class='float-right text-muted'>"
 	           	+replyService.displayTime(list[i].regdate)+"</small></div>";
-	       	str +="    <p>"+list[i].replytext+"</p></div><hr></li>";
+	       	str +="    <p>"+list[i].replytext+"</p></div></li>";
 				}
 				
 				replyUL.html(str);
