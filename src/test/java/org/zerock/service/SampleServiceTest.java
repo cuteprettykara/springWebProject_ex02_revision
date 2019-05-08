@@ -1,7 +1,7 @@
 package org.zerock.service;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,10 +27,15 @@ public class SampleServiceTest {
 	}
 
 	@Test
-	public void test() throws Exception {
+	public void testAdd() throws Exception {
 		Integer actual = service.doAdd("111", "222");
 		log.info(actual);
 		assertThat(actual, is(333));
+	}
+	
+	@Test(expected = Exception.class)
+	public void testAddError() throws Exception {
+		service.doAdd("111", "ABC");
 	}
 
 }
