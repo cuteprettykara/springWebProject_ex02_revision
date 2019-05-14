@@ -105,7 +105,26 @@
 		
 		$("button[type='submit']").on("click", function(e) {
 			e.preventDefault();
-			console.log("submit clicked");
+			
+			var str = "";
+			
+			$(".uploadResult ul li").each(function(i, obj) {
+				var jobj = $(obj);
+			      
+	      console.dir(jobj);
+	      console.log("-------------------------");
+	      console.log(jobj.data("filename"));
+	      
+	      str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
+	      str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
+	      str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
+	      str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
+			});
+			
+			console.log(str);
+		    
+			formObj.append(str).submit();
+			
 		});
 		
 		$("input[type='file']").change(function(e) {
@@ -172,19 +191,19 @@
 						originPath = originPath.replace(new RegExp(/\\/g), "/");
 						console.log("after replace: " + originPath);
 						
-						str += "<li><div>"
-						     + "<span>" + obj.fileName + "</span>"
+						str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>"
+						     + "<div><span>" + obj.fileName + "</span>"
 						     + "<button type='button' class='btn btn-warning btn-circle' data-file='" + imagePath + "' data-type='image'>"
 						     + "<i class='fa fa-times'></i></button><br>"
 						     + "<img src='/displayFile?fileName=" + imagePath + "'>"
 						     + "</div></li>";
 					} else {
 						var filePath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
-						str += "<li><div>"
-							   + "<span>" + obj.fileName + "</span>"
+						str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>"
+							   + "<div><span>" + obj.fileName + "</span>"
 					       + "<button type='button' class='btn btn-warning btn-circle' data-file='" + filePath + "' data-type='file'>"
 							   + "<i class='fa fa-times'></i></button><br>"
-							   + "<img src='/resources/img/attach.png'></a>"
+							   + "<img src='/resources/img/attach.png'>"
 							   + "</div></li>";
 					}
 				});

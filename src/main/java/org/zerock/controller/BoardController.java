@@ -55,6 +55,10 @@ public class BoardController {
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		log.info("register: " + board);
 		
+		if (board.getAttachList() != null) {
+			board.getAttachList().forEach(attach -> log.info(attach));
+		}
+		
 		if (service.register(board)) {
 			rttr.addFlashAttribute("result", board.getBno());
 		}
