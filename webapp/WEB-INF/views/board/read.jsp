@@ -5,6 +5,57 @@
 
 <%@include file="../includes/header.jsp" %>
 
+<style>
+	.uploadResult {
+		width: 100%;
+		background-color: gray;
+	}
+	
+	.uploadResult ul {
+		display: flex;
+		flex-flow: row;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.uploadResult ul li {
+		list-style: none;
+		padding: 10px;
+	}
+	
+	.uploadResult ul li div {
+		color: white;
+	}	
+	
+	.uploadResult ul li img {
+		width: 100px;
+	}
+	
+	.bigPictureWrapper {
+		display:none;
+		position: absolute;
+/* 		border: 1px solid red; */
+		top: 0%;
+		width: 100%;
+		height: 100%;
+		/* background-color: gray; */
+		z-index: 100;
+		background: rgba(255,255,255, 0.5);
+		justify-content: center;
+	}
+	
+	.bigPicture {
+		/* border: 1px solid blue; */
+		positon: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.bigPicutre img {
+		width: 600px;
+	}
+</style>
 
           <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">Board Read Page</h1>
@@ -50,6 +101,24 @@
 						<input type="hidden" name="searchType" value="${cri.searchType}">
 						<input type="hidden" name="keyword" value="${cri.keyword}">
 					</form>
+
+<div class='bigPictureWrapper'>
+  <div class='bigPicture'>
+  </div>
+</div>
+
+<div class="card shadow mb-4">
+	<div class="card-header py-3">
+		<h6 class="m-0 font-weight-bold text-primary">Files</h6>
+	</div>
+	<div class="card-body">
+		<div class="uploadResult">
+			<ul>
+
+			</ul>
+		</div>
+	</div>
+</div>
 
 
 <div class="card shadow mb-4">
@@ -303,5 +372,79 @@
 	});
 </script>
 
+
+<script>
+	// 첨부파일
+	$(document).ready(function() {
+		var bno = "<c:out value='${board.bno}'/>";
+		
+		$.getJSON("/board/getAttachList", {bno: bno}, function(result) {
+			console.log(result);
+			
+			var str = "";
+			var uploadResult = $(".uploadResult ul");
+			
+			$(result).each(function(i, attach) {
+				if (attach.fileType) {
+					var imagePath = encodeURIComponent(attach.uploadPath + "/s_" + attach.uuid + "_" + attach.fileName);
+					str += "<li data-path='" + attach.uploadPath + "' data-uuid='" + attach.uuid + "' data-filename='" + attach.fileName + "' data-type='" + attach.fileType + "'>"
+					     + "<div>"
+					     + "<img src='/displayFile?fileName=" + imagePath + "'>"
+					     + "</div></li>";
+				} else {
+					var filePath = encodeURIComponent(attach.uploadPath + "/" + attach.uuid + "_" + attach.fileName);
+					str += "<li data-path='" + attach.uploadPath + "' data-uuid='" + attach.uuid + "' data-filename='" + attach.fileName + "' data-type='" + attach.fileType + "'>"
+						   + "<div><span>" + attach.fileName + "</span>"
+						   + "<img src='/resources/img/attach.png'>"
+						   + "</div></li>";
+				}
+			});
+			
+			uploadResult.append(str);
+			
+		});
+		
+		$(".uploadResult").on("click", "li", function(e) {
+			var liObj = $(this);
+			
+			var originPath = liObj.data("path") + "\\" + liObj.data("uuid") + "_" + liObj.data("filename");
+			console.log("before replace: " + originPath);
+			
+			// 생성된 문자열은 '\' 기호 때문에 일반 문자열과는 다르게 처리되므로, '/'로 변환한 뒤에, showImage()에 파라미터로 전달합니다.
+			// 파일 경로의 경우 함수로 전달될 때 문제가 생깁니다.
+			originPath = originPath.replace(new RegExp(/\\/g), "/");
+			console.log("after replace: " + originPath);
+			
+			if (liObj.data("type")) {
+				showImage(originPath);
+			} else {
+				self.location = "/downloadFile?fileName=" + originPath;
+			}
+		});
+		
+		$(".bigPictureWrapper").on("click", function(e) {
+			$(".bigPicture").animate({width: '0%', height: '0%'}, 1000);
+			
+			setTimeout(() => {
+				$(this).hide();
+			}, 1000);
+			
+			// ES6의 화살표 함수는 Chrome에서는 정상 작동하지만, IE11에서는 제대로 동작하지 않으므로 다음의 내용으로 테스트한다.
+			/* setTimeout(function() {
+				$(".bigPictureWrapper").hide();
+			}, 1000); */
+		});
+		
+		function showImage(path) {
+			console.log(path);
+			$(".bigPictureWrapper").css("display", "flex").show();
+			
+			$(".bigPicture")
+				.html("<img src='/displayFile?fileName=" + encodeURI(path) + "'>")
+				.animate({width: '100%', height: '100%'}, 1000);
+		}
+		
+	});
+</script>
 
 <%@ include file="../includes/footer.jsp"%>
