@@ -132,11 +132,26 @@
 				contentType: false,
 				success: function(result) {
 					console.log(result);
-					
 					showUploadedFile(result);
-
-//					$(".uploadDiv").html(cloneObj.html());
 				}
+			});
+			
+			$(".uploadResult").on("click", "button", function(e) {
+				var targetFile = $(this).data("file");
+				var type = $(this).data("type");
+				var targetLi = $(this).closest("li");
+				
+				$.ajax({
+					type: "post",
+					url: "/deleteFile",
+					data: {fileName: targetFile, type:type},
+					dataType: "text",
+					success: function(result) {
+						alert(result);
+						targetLi.remove();
+					}
+				});
+				
 			});
 			
 			function showUploadedFile(uploadResultArr) {
@@ -159,14 +174,16 @@
 						
 						str += "<li><div>"
 						     + "<span>" + obj.fileName + "</span>"
-						     + "<button type='button' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>"
+						     + "<button type='button' class='btn btn-warning btn-circle' data-file='" + imagePath + "' data-type='image'>"
+						     + "<i class='fa fa-times'></i></button><br>"
 						     + "<img src='/displayFile?fileName=" + imagePath + "'>"
 						     + "</div></li>";
 					} else {
 						var filePath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
 						str += "<li><div>"
 							   + "<span>" + obj.fileName + "</span>"
-					       + "<button type='button' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>"
+					       + "<button type='button' class='btn btn-warning btn-circle' data-file='" + filePath + "' data-type='file'>"
+							   + "<i class='fa fa-times'></i></button><br>"
 							   + "<img src='/resources/img/attach.png'></a>"
 							   + "</div></li>";
 					}
