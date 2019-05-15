@@ -43,7 +43,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		int insertCount = mapper.insertSelectKey(board);
 		
-		if (board.getAttachList() != null && board.getAttachList().size() <= 0) {
+		if (board.getAttachList() != null && board.getAttachList().size() > 0) {
 			board.getAttachList().forEach(attach -> {
 				attach.setBno(board.getBno());
 				attachMapper.insert(attach);
