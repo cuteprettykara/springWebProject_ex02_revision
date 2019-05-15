@@ -126,9 +126,13 @@ public class BoardController {
 				
 				Files.deleteIfExists(file);
 				
+				log.info("file: " + file);
+				log.info("Files.probeContentType(file): " + Files.probeContentType(file));
+				
 				if (Files.probeContentType(file).startsWith("image")) {
+					log.info("*** image");
 					Path thumbNail = Paths.get(UPLOAD_FOLDER + attach.getUploadPath() + File.separator 
-							+ "s_" + attach.getUuid() + "_" + attach.getFileName());
+						+ "s_" + attach.getUuid() + "_" + attach.getFileName());
 					
 					Files.delete(thumbNail);
 				}
