@@ -1,5 +1,10 @@
 package org.zerock.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -30,6 +35,8 @@ import lombok.extern.log4j.Log4j;
 public class BoardController {
 
 	private BoardService service;
+	
+	private static final String UPLOAD_FOLDER = System.getProperty("user.home") + File.separator + "upload" + File.separator;
 	
 	@RequestMapping("/list")
 	public void list(@ModelAttribute("cri") Criteria cri, Model model) {
@@ -94,13 +101,43 @@ public class BoardController {
 			RedirectAttributes rttr) {
 		log.info("remove: " + bno);
 		
-		if (service.remove(bno)) {
+		List<BoardAttachVO> attachList = service.getAttachList(bno);
+		
+		if (service.remove(bno)) {		// delete Attach Files in DB
+			deleteFiles(attachList);	// delete Attach Files in folder.
+			
 			rttr.addFlashAttribute("result", "success");
 		}
 		
 		return "redirect:/board/list" + cri.getListLink();
 	}
 	
+	private void deleteFiles(List<BoardAttachVO> attachList) {
+		if (attachList == null || attachList.size() == 0) return;
+		
+		log.info("delete attach files....");
+		log.info(attachList);
+		
+		attachList.forEach(attach -> {
+			
+			try {
+				Path file = Paths.get(UPLOAD_FOLDER + attach.getUploadPath() + File.separator 
+						+ attach.getUuid() + "_" + attach.getFileName());
+				
+				Files.deleteIfExists(file);
+				
+				if (Files.probeContentType(file).startsWith("image")) {
+					Path thumbNail = Paths.get(UPLOAD_FOLDER + attach.getUploadPath() + File.separator 
+							+ "s_" + attach.getUuid() + "_" + attach.getFileName());
+					
+					Files.delete(thumbNail);
+				}
+			} catch (IOException e) {
+				log.error("delete file error" + e.getMessage());
+			}
+		});
+	}
+
 	@GetMapping(value = "/getAttachList",
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
