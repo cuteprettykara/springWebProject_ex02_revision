@@ -36,7 +36,7 @@ import net.coobird.thumbnailator.Thumbnailator;
 @Log4j
 public class UploadController {
 	
-	private static final String UPLOAD_FOLDER = "C:\\Temp\\";
+	private static final String UPLOAD_FOLDER = System.getProperty("user.home") + File.separator + "upload" + File.separator;
 
 	@GetMapping("/uploadForm")
 	public void uploadForm() {
