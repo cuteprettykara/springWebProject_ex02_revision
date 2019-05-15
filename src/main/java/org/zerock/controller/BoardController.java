@@ -124,13 +124,15 @@ public class BoardController {
 				Path file = Paths.get(UPLOAD_FOLDER + attach.getUploadPath() + File.separator 
 						+ attach.getUuid() + "_" + attach.getFileName());
 				
+				// file을 지우기 전에 image 타입인지 아닌지를 검사한다.
+				// 로컬 윈도우에서는 file을 지우고나서, Files.probeContentType(file)이 제대로 작동을 하지만,
+				// ubuntu에서는 file을 지우고나면, file이 null이 되어서,
+				// Files.probeContentType(file) 문장에서  NullPointerException이 떨어진다.
+				boolean isImageType = Files.probeContentType(file).startsWith("image");
+				
 				Files.deleteIfExists(file);
 				
-				log.info("file: " + file);
-				log.info("Files.probeContentType(file): " + Files.probeContentType(file));
-				
-				if (Files.probeContentType(file).startsWith("image")) {
-					log.info("*** image");
+				if (isImageType) {
 					Path thumbNail = Paths.get(UPLOAD_FOLDER + attach.getUploadPath() + File.separator 
 						+ "s_" + attach.getUuid() + "_" + attach.getFileName());
 					
