@@ -154,64 +154,65 @@
 					showUploadedFile(result);
 				}
 			});
+		});
 			
-			$(".uploadResult").on("click", "button", function(e) {
-				var targetFile = $(this).data("file");
-				var type = $(this).data("type");
-				var targetLi = $(this).closest("li");
-				
-				$.ajax({
-					type: "post",
-					url: "/deleteFile",
-					data: {fileName: targetFile, type:type},
-					dataType: "text",
-					success: function(result) {
-						alert(result);
-						targetLi.remove();
-					}
-				});
-				
+		function showUploadedFile(uploadResultArr) {
+			if (!uploadResultArr || uploadResultArr.length == 0) return;
+			
+			var uploadResult = $(".uploadResult ul");
+			
+			var str = "";
+			
+			$(uploadResultArr).each(function(i, obj) {
+				if (obj.image) {
+					var imagePath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+					
+					var originPath = obj.uploadPath + "\\" + obj.uuid + "_" + obj.fileName;
+					console.log("before replace: " + originPath);
+					
+					// 생성된 문자열은 '\' 기호 때문에 일반 문자열과는 다르게 처리되므로, '/'로 변환한 뒤에, showImage()에 파라미터로 전달합니다.
+					originPath = originPath.replace(new RegExp(/\\/g), "/");
+					console.log("after replace: " + originPath);
+					
+					str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>"
+					     + "<div><span>" + obj.fileName + "</span>"
+					     + "<button type='button' class='btn btn-warning btn-circle' data-file='" + imagePath + "' data-type='image'>"
+					     + "<i class='fa fa-times'></i></button><br>"
+					     + "<img src='/displayFile?fileName=" + imagePath + "'>"
+					     + "</div></li>";
+				} else {
+					var filePath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
+					str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>"
+						   + "<div><span>" + obj.fileName + "</span>"
+				       + "<button type='button' class='btn btn-warning btn-circle' data-file='" + filePath + "' data-type='file'>"
+						   + "<i class='fa fa-times'></i></button><br>"
+						   + "<img src='/resources/img/attach.png'>"
+						   + "</div></li>";
+				}
 			});
 			
-			function showUploadedFile(uploadResultArr) {
-				if (!uploadResultArr || uploadResultArr.length == 0) return;
-				
-				var uploadResult = $(".uploadResult ul");
-				
-				var str = "";
-				
-				$(uploadResultArr).each(function(i, obj) {
-					if (obj.image) {
-						var imagePath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
-						
-						var originPath = obj.uploadPath + "\\" + obj.uuid + "_" + obj.fileName;
-						console.log("before replace: " + originPath);
-						
-						// 생성된 문자열은 '\' 기호 때문에 일반 문자열과는 다르게 처리되므로, '/'로 변환한 뒤에, showImage()에 파라미터로 전달합니다.
-						originPath = originPath.replace(new RegExp(/\\/g), "/");
-						console.log("after replace: " + originPath);
-						
-						str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>"
-						     + "<div><span>" + obj.fileName + "</span>"
-						     + "<button type='button' class='btn btn-warning btn-circle' data-file='" + imagePath + "' data-type='image'>"
-						     + "<i class='fa fa-times'></i></button><br>"
-						     + "<img src='/displayFile?fileName=" + imagePath + "'>"
-						     + "</div></li>";
-					} else {
-						var filePath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
-						str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>"
-							   + "<div><span>" + obj.fileName + "</span>"
-					       + "<button type='button' class='btn btn-warning btn-circle' data-file='" + filePath + "' data-type='file'>"
-							   + "<i class='fa fa-times'></i></button><br>"
-							   + "<img src='/resources/img/attach.png'>"
-							   + "</div></li>";
-					}
-				});
-				
-				uploadResult.append(str);
-			}
+			uploadResult.html(str);
+		}
+			
+		$(".uploadResult").on("click", "button", function(e) {
+			var targetFile = $(this).data("file");
+			var type = $(this).data("type");
+			var targetLi = $(this).closest("li");
+			
+			$.ajax({
+				type: "post",
+				url: "/deleteFile",
+				data: {fileName: targetFile, type:type},
+				dataType: "text",
+				success: function(result) {
+					alert(result);
+					targetLi.remove();
+				}
+			});
 			
 		});
+		
+		
 	});
 </script>
 
