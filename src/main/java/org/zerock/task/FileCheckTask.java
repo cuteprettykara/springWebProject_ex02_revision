@@ -38,7 +38,7 @@ public class FileCheckTask {
 	}
 	
 	
-	@Scheduled(cron = "0 * * * * *")
+	@Scheduled(cron = "0 0/10 * * * *")
 	public void checkFiles() {
 		log.warn("File Check Task run ..........................");
 		log.warn("==============================================");
