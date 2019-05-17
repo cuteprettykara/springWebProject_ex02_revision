@@ -125,6 +125,7 @@
 	
 	<div class="card-header py-3">
   	<i class="fa fa-comments fa-fw"></i> Reply
+  	<small>[ <span id="replycntSmall"><c:out value="${board.replyCnt}" /></span> ]</small>
     <button id='addReplyBtn' data-oper='addReply' class='btn btn-primary btn-xs float-right'>New Reply</button>
   </div>
   
@@ -291,6 +292,9 @@
 			currentPage = page;
 			
 			replyService.getList({bno:bnoValue, page:page || 1}, function(result) {
+				// 댓글 갯수 넣기
+				$("#replycntSmall").text(result.pageMaker.totalCount);
+				
 				var list = result.list;
 				if (list == null || list.length == 0) {
 					replyUL.html("");
@@ -353,6 +357,13 @@
 					break;
 					
 				case "remove":
+					var replyCnt =  $("#replycntSmall").html();
+					
+					if(replyCnt > 0 ){
+						alert("댓글이 달린 게시물을 삭제할 수 없습니다.");
+						return;
+					}
+					
 					formObj.attr("method", "post");
 					formObj.attr("action","/board/remove").submit();
 					break;

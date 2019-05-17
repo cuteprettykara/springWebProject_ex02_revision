@@ -69,7 +69,6 @@
 			          </div>
 			          
 			          <button type="button" data-oper='modify' class="btn btn-primary">Modify</button>
-		          	<button type="button" data-oper='remove' class="btn btn-danger">Remove</button>
 		          	<button type="button" data-oper='list' class="btn btn-secondary">List</button>
 							</form> 
             </div>
@@ -138,9 +137,6 @@
 		 	formObj.submit();
 	 	});
 	  
-	  $("button[data-oper='remove']").on("click", function(e) {
-			formObj.attr("action","/board/remove").submit();
-		});
 	});
 </script>
 
