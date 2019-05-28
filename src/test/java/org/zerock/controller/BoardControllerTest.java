@@ -72,22 +72,22 @@ public class BoardControllerTest {
 		);
 	}
 	
-	@Test
-	public void testRegister() throws Exception {
-		Long resultMessage = 
-		(Long) mockMvc.perform(MockMvcRequestBuilders.post("/board/register")
-							.param("title", "새로 작성하는 글")
-							.param("content", "새로 작성하는 내용")
-							.param("writer", "newbie"))
-			.andDo(print())
-			.andExpect(redirectedUrl("/board/list"))
-			.andReturn()
-			.getFlashMap().get("result");
-		
-		assertNotNull(resultMessage);
-		
-		log.info("inserted bno: [" + resultMessage + "]");
-	}
+//	@Test
+//	public void testRegister() throws Exception {
+//		Long resultMessage = 
+//		(Long) mockMvc.perform(MockMvcRequestBuilders.post("/board/register")
+//							.param("title", "새로 작성하는 글")
+//							.param("content", "새로 작성하는 내용")
+//							.param("writer", "newbie"))
+//			.andDo(print())
+//			.andExpect(redirectedUrl("/board/list"))
+//			.andReturn()
+//			.getFlashMap().get("result");
+//		
+//		assertNotNull(resultMessage);
+//		
+//		log.info("inserted bno: [" + resultMessage + "]");
+//	}
 	
 	@Test
 	public void testModifyOK() throws Exception {
