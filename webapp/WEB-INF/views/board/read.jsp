@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 <%@include file="../includes/header.jsp" %>
 
@@ -88,8 +89,15 @@
 		            <input class="form-control" name='writer' value='<c:out value="${board.writer}" />' readonly="readonly">
 		          </div>
 		          
-		          <button type="button" data-oper='modify' class="btn btn-primary">Modify</button>
-		          <button type="button" data-oper='remove' class="btn btn-danger">Remove</button>
+		          <sec:authentication property="principal" var="pinfo"/>
+		          
+		          <sec:authorize access="isAuthenticated()">
+		          	<c:if test="${pinfo.username eq board.writer}">
+				          <button type="button" data-oper='modify' class="btn btn-primary">Modify</button>
+				          <button type="button" data-oper='remove' class="btn btn-danger">Remove</button>
+		          	</c:if>
+		          </sec:authorize>
+		          
 		          <button type="button" data-oper='list' class="btn btn-secondary">List</button>
             </div>
           </div>
@@ -126,7 +134,9 @@
 	<div class="card-header py-3">
   	<i class="fa fa-comments fa-fw"></i> Reply
   	<small>[ <span id="replycntSmall"><c:out value="${board.replyCnt}" /></span> ]</small>
-    <button id='addReplyBtn' data-oper='addReply' class='btn btn-primary btn-xs float-right'>New Reply</button>
+ 		<sec:authorize access="isAuthenticated()">
+   		<button id='addReplyBtn' data-oper='addReply' class='btn btn-primary btn-xs float-right'>New Reply</button>
+   	</sec:authorize>
   </div>
   
   <div class="card-body">
