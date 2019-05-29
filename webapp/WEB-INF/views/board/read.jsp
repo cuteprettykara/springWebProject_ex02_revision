@@ -103,6 +103,8 @@
           </div>
           
           <form id='operForm' action="/board/modify" method="get">
+          	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+          	
 					  <input type='hidden' name='bno' id="bno" value='<c:out value="${board.bno}"/>'>
 					  <input type="hidden" name="page" value="${cri.page}">
 						<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
