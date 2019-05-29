@@ -89,38 +89,38 @@ public class BoardControllerTest {
 //		log.info("inserted bno: [" + resultMessage + "]");
 //	}
 	
-	@Test
-	public void testModifyOK() throws Exception {
-		String resultMessage =
-		(String) mockMvc.perform(MockMvcRequestBuilders.post("/board/modify")
-							.param("bno", "1")
-							.param("title", "수정된  제목")
-							.param("content", "수정된 내용")
-							.param("writer", "newbie"))
-			.andDo(print())
-			.andExpect(status().isFound())	// 302
-			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10&searchType&keyword"))
-			.andReturn()
-			.getFlashMap().get("result");
-		
-		assertEquals("success", resultMessage);
-	}
+//	@Test
+//	public void testModifyOK() throws Exception {
+//		String resultMessage =
+//		(String) mockMvc.perform(MockMvcRequestBuilders.post("/board/modify")
+//							.param("bno", "1")
+//							.param("title", "수정된  제목")
+//							.param("content", "수정된 내용")
+//							.param("writer", "newbie"))
+//			.andDo(print())
+//			.andExpect(status().isFound())	// 302
+//			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10&searchType&keyword"))
+//			.andReturn()
+//			.getFlashMap().get("result");
+//		
+//		assertEquals("success", resultMessage);
+//	}
 	
-	@Test
-	public void testModifyBad() throws Exception {
-		String resultMessage =
-		(String) mockMvc.perform(MockMvcRequestBuilders.post("/board/modify")
-							.param("bno", "999999")	// 에러 상황을 유도 : 없는 bno를 넘긴다.
-							.param("title", "수정된  제목")
-							.param("content", "수정된 내용")
-							.param("writer", "newbie"))
-			.andDo(print())
-			.andExpect(status().isFound())	// 302
-			.andReturn()
-			.getFlashMap().get("result");
-		
-		assertNull(resultMessage);
-	}
+//	@Test
+//	public void testModifyBad() throws Exception {
+//		String resultMessage =
+//		(String) mockMvc.perform(MockMvcRequestBuilders.post("/board/modify")
+//							.param("bno", "999999")	// 에러 상황을 유도 : 없는 bno를 넘긴다.
+//							.param("title", "수정된  제목")
+//							.param("content", "수정된 내용")
+//							.param("writer", "newbie"))
+//			.andDo(print())
+//			.andExpect(status().isFound())	// 302
+//			.andReturn()
+//			.getFlashMap().get("result");
+//		
+//		assertNull(resultMessage);
+//	}
 
 //	@Test
 //	public void testRemoveOK() throws Exception {
@@ -136,17 +136,17 @@ public class BoardControllerTest {
 //		assertEquals("success", resultMessage);
 //	}
 	
-	@Test
-	public void testRemoveBad() throws Exception {
-		String resultMessage =
-		(String) mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
-							.param("bno", "999999"))	// 에러 상황을 유도 : 없는 bno를 넘긴다.
-			.andDo(print())
-			.andExpect(status().isFound())	// 302
-			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10&searchType&keyword"))
-			.andReturn()
-			.getFlashMap().get("result");
-		
-		assertNull(resultMessage);
-	}
+//	@Test
+//	public void testRemoveBad() throws Exception {
+//		String resultMessage =
+//		(String) mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
+//							.param("bno", "999999"))	// 에러 상황을 유도 : 없는 bno를 넘긴다.
+//			.andDo(print())
+//			.andExpect(status().isFound())	// 302
+//			.andExpect(redirectedUrl("/board/list?page=1&perPageNum=10&searchType&keyword"))
+//			.andReturn()
+//			.getFlashMap().get("result");
+//		
+//		assertNull(resultMessage);
+//	}
 }
