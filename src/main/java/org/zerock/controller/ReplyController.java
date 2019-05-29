@@ -94,15 +94,18 @@ public class ReplyController {
 		return entity;
 	}
 	
+	@PreAuthorize("principal.username == #vo.replyer")
 	@DeleteMapping(value="/{rno}",
 			consumes = "application/json",
 			produces = { MediaType.TEXT_PLAIN_VALUE }
 			)
 	public ResponseEntity<String> remove(
+			@RequestBody ReplyVO vo,
 			@PathVariable("rno") Long rno) {
 		ResponseEntity<String> entity = null;
 		
 		log.info("remove: " + rno);
+		log.info("replyer: " + vo.getReplyer());
 		
 		if (service.remove(rno)) {
 			entity = new ResponseEntity<>("SUCCESS", HttpStatus.OK);

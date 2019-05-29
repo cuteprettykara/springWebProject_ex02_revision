@@ -278,10 +278,19 @@
 				myModal.data("rno", result.rno);
 				
 				modalInputReplyDate.closest("div").show();
-				modalModBtn.show();
-				modalRemoveBtn.show();				
-				modalRegisterBtn.hide();
 				
+				// 자신이 작성한 댓글만이 수정/삭제가 가능하도록 해야 합니다.
+				var originalReplyer = modalInputReplyer.val();
+				
+				if (replyer === originalReplyer) {
+					modalModBtn.show();
+					modalRemoveBtn.show();		
+				} else {
+					modalModBtn.hide();
+					modalRemoveBtn.hide();		
+				}
+				
+				modalRegisterBtn.hide();
 				myModal.modal("show");
 			});
 		});
@@ -302,7 +311,7 @@
 		});
 		
 		modalRemoveBtn.on("click", function(e) {
-			replyService.remove(myModal.data("rno"), function(result) {
+			replyService.remove(myModal.data("rno"), modalInputReplyer.val(), function(result) {
 				alert(result);
 				
 				myModal.modal("hide");
