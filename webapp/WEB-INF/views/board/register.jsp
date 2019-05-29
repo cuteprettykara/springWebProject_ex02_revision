@@ -105,7 +105,11 @@
 
 	$(document).ready(function() {
 		var formObj = $("form[role='form']");
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue = "${_csrf.token}";
 		
+		console.log("csrfHeaderName:", csrfHeaderName);
+		console.log("csrfTokenValue:", csrfTokenValue);
 		
 		$("button[type='submit']").on("click", function(e) {
 			e.preventDefault();
@@ -150,6 +154,9 @@
 				type: "post",
 				url: "/uploadAjax",
 				data: formData,
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
 				dataType: "json",
 				processData: false,
 				contentType: false,
@@ -207,6 +214,9 @@
 				type: "post",
 				url: "/deleteFile",
 				data: {fileName: targetFile, type:type},
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
 				dataType: "text",
 				success: function(result) {
 					alert(result);
