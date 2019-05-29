@@ -72,6 +72,7 @@ public class ReplyController {
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("principal.username == #vo.replyer")
 	@RequestMapping(value="/{rno}", method = {RequestMethod.PUT, RequestMethod.PATCH},
 			consumes = "application/json",
 			produces = { MediaType.TEXT_PLAIN_VALUE }
@@ -84,6 +85,7 @@ public class ReplyController {
 		vo.setRno(rno);
 		
 		log.info("modify: " + vo);
+		log.info("replyer: " + vo.getReplyer());
 		
 		if (service.modify(vo)) {
 			entity = new ResponseEntity<>("SUCCESS", HttpStatus.OK);

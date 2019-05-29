@@ -298,7 +298,8 @@
 		modalModBtn.on("click", function(e) {
 			var reply = {
 				rno: myModal.data("rno"),
-				replytext: modalInputReply.val()
+				replytext: modalInputReply.val(),
+				replyer: modalInputReplyer.val()
 			};
 			
 			replyService.update(reply, function(result) {
