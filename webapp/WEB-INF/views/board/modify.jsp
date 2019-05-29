@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 <%@include file="../includes/header.jsp" %>
 
@@ -41,6 +42,8 @@
             
             <div class="card-body">
             	<form id='operForm' action="/board/modify" method="post">
+            		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            	
             		<input type="hidden" name="page" value="${cri.page}">
 								<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
 								<input type="hidden" name="searchType" value="${cri.searchType}">
@@ -68,7 +71,14 @@
 			            <input class="form-control" name='writer' value='<c:out value="${board.writer}" />'>
 			          </div>
 			          
-			          <button type="button" data-oper='modify' class="btn btn-primary">Modify</button>
+			          <sec:authentication property="principal" var="pinfo"/>
+			          
+			          <sec:authorize access="isAuthenticated()">
+			          	<c:if test="${pinfo.username eq board.writer}">
+				          	<button type="button" data-oper='modify' class="btn btn-primary">Modify</button>
+			          	</c:if>
+			          </sec:authorize>
+		          
 		          	<button type="button" data-oper='list' class="btn btn-secondary">List</button>
 							</form> 
             </div>
