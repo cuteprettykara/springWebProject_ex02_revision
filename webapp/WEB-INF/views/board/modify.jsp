@@ -216,6 +216,8 @@
 	
 	$(document).ready(function() {
 		var formObj = $("form[role='form']");
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue = "${_csrf.token}";
 		
 		$("button[type='submit']").on("click", function(e) {
 			e.preventDefault();
@@ -260,6 +262,9 @@
 				type: "post",
 				url: "/uploadAjax",
 				data: formData,
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
 				dataType: "json",
 				processData: false,
 				contentType: false,
