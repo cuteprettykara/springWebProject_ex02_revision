@@ -208,6 +208,14 @@
 		var modalInputReplyer = myModal.find("input[name='replyer']");
 		var modalInputReplyDate = myModal.find("input[name='replyDate']");
 		
+		var replyer = null;
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue = "${_csrf.token}";
+		
+		<sec:authorize access="isAuthenticated()">
+      	replyer = '<sec:authentication property="principal.username" />';
+    </sec:authorize>
+		
 		var modalModBtn = $("#modalModBtn");
 		var modalRemoveBtn = $("#modalRemoveBtn");
 		var modalRegisterBtn = $("#modalRegisterBtn");
@@ -215,11 +223,20 @@
 		var replyPageFooter = $(".card-footer");
 		var currentPage = 1;
 		
+		// Ajax spring security header
+		$(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		});
+		
 		$("#addReplyBtn").on("click", function(e) {
 			myModal.find("input").val("");
 			
-			modalInputReplyer.removeAttr("readonly");
+//	  modalInputReplyer.removeAttr("readonly");
+			modalInputReplyer.attr("readOnly", "readonly");
 			modalInputReplyDate.closest("div").hide();
+			
+			// 로그인 사용자의 아이디를 세팅한다.
+	    modalInputReplyer.val(replyer);
 			
 			modalModBtn.hide();
 			modalRemoveBtn.hide();
