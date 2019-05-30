@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -323,10 +325,21 @@
                   Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
-                </a>
+                
+                <sec:authorize access="isAuthenticated()">
+	                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+	                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+	                  Logout
+	                </a>                	
+                </sec:authorize>
+                
+                <sec:authorize access="isAnonymous()">
+                	<a class="dropdown-item" href="/customLogin">
+	                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+	                  Login
+	                </a>
+                </sec:authorize>
+                
               </div>
             </li>
 

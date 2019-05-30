@@ -106,6 +106,14 @@
 	    
 	  });
   </script>
+  
+  <c:if test="${logout != null }">
+  	<script>
+  		$(document).ready(function(e) {
+  			alert("로그아웃하였습니다.");
+  		});
+  	</script>
+  </c:if>
 
 </body>
 

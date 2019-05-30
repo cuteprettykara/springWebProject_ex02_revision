@@ -39,8 +39,12 @@
         </div>
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="/resources/login.html">Logout</a>
+        	<form role="form" method="post" action="/customLogout">
+        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+        		
+	          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+	          <a class="btn btn-primary" id="logout" href="/">Logout</a>
+        	</form>
         </div>
       </div>
     </div>
@@ -61,6 +65,13 @@
 
   <!-- Page level custom scripts -->
   <!-- <script src="/resources/js/demo/datatables-demo.js"></script> -->
+  
+  <script>
+  	$("#logout").on("click", function(e) {
+			e.preventDefault();
+			$("form").submit();
+		});
+  </script>
   
 </body>
 
